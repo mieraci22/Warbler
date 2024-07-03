@@ -1,0 +1,39 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ current_user.username }}'s Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="profile-header" style="background-image: url('{{ current_user.header_image_url }}');">
+        <img src="{{ current_user.image_url }}" alt="{{ current_user.username }}'s profile picture">
+    </div>
+    <div class="profile-details">
+        <h1>{{ current_user.username }}</h1>
+        <form method="POST" action="{{ url_for('profile') }}">
+            <div>
+                <label for="location">Location</label>
+                <input type="text" name="location" value="{{ current_user.location }}" size="32" class="form-control">
+            </div>
+            <div>
+                <label for="bio">Bio</label>
+                <textarea name="bio" cols="30" rows="5" class="form-control">{{ current_user.bio }}</textarea>
+            </div>
+            <div>
+                <label for="header_image_url">Header Image URL</label>
+                <input type="text" name="header_image_url" value="{{ current_user.header_image_url }}" size="64" class="form-control">
+            </div>
+            <button type="submit">Update Profile</button>
+        </form>
+        
+        {% for message in get_flashed_messages(with_categories=true) %}
+          <div class="alert alert-{{ message[0] }}">
+            {{ message[1] }}
+          </div>
+        {% endfor %}
+        
+    </div>
+</body>
+</html>

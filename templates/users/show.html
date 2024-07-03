@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-sidebar">
+                <div class="profile-userpic">
+                    <img src="{{ user.image_url }}" class="img-responsive" alt="{{ user.username }}">
+                </div>
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        {{ user.username }}
+                    </div>
+                    <div class="profile-usertitle-job">
+                        {{ user.bio }}
+                    </div>
+                </div>
+                <div class="profile-userbuttons">
+                    {% if current_user.is_authenticated and current_user.id == user.id %}
+                    <a href="{{ url_for('profile') }}" class="btn btn-success btn-sm">Edit Profile</a>
+                    {% endif %}
+                </div>
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li>
+                            <a href="{{ url_for('show_following', user_id=user.id) }}">
+                            <i class="glyphicon glyphicon-user"></i>
+                            Following  </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('users_followers', user_id=user.id) }}">
+                            <i class="glyphicon glyphicon-ok"></i>
+                            Followers </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="profile-content">
+                <h3>{{ user.username }}'s Warbles</h3>
+                {% for message in messages %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p class="card-text">{{ message.text }}</p>
+                        <p class="card-text"><small class="text-muted">{{ message.timestamp }}</small></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
